@@ -5,3 +5,12 @@
 body{
   height: 100%;
 }
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(./assets/catcafemeow.ttf);
+}
+
+* {
+  font-family: myFirstFont;
+}
