@@ -1,16 +1,13 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import catBg from "./assets/cat-bg.png";
 import icon1 from "./assets/icon1.png";
 import icon2 from "./assets/icon2.png";
 import "./App.css";
+import { Link } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
-    <div className="bg-gradient-to-b from-amber-50 to-amber-100">
+    <div className="bg-gradient-to-b from-amber-50 to-amber-100 overflow-hidden">
       <div
         className="w-full h-screen pt-16 text-7xl  bg-cover text-[#78630f]"
         style={{ backgroundImage: `url(${catBg})` }}
@@ -29,6 +26,7 @@ function App() {
           <button className="border-b-0 border-b-red-100 pb-0 hover:border-b-2 hover:pb-[1px] transition-all w-fit ml-8 text-[#d9af06]">ตีรณา</button>
           <button className="border-b-0 border-b-red-100 pb-0 hover:border-b-2 hover:pb-[1px] transition-all w-fit ml-20 text-[#f5c60b]">ต้นขนุน</button>
           <button className="border-b-0 border-b-red-100 pb-0 hover:border-b-2 hover:pb-[1px] transition-all w-fit ml-8 text-[#fbd024]">หนุนหนุน</button>
+          <Link to="/q">q</Link>
         </div>
       </div>
     </div>
