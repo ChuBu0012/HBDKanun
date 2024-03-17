@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "../components/Container";
-
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 const Q = () => {
   const elementRef = useRef<HTMLButtonElement>(null);
-  const [btnTop, setBtnTop] = useState<number>(
-    elementRef?.current?.offsetTop || 0
+  const element2Ref = useRef<HTMLButtonElement>(null);
+  const [incremmentBtnTop, setincremmentBtnTop] = useState<number>(
+    Math.random() * 80 + 40
+  );
+  const [incremmentBtnRight, setincremmentBtnRight] = useState<number>(
+    Math.random() * 40 + 20
   );
   const [maxWindowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [count, setcount] = useState(0);
 
   useEffect(() => {
     const updateMaxWindowSize = () => {
@@ -26,42 +32,71 @@ const Q = () => {
     };
   }, []);
 
-  const test = () => {
-    const buttonElement = elementRef.current;
-    const increment: number = 130;
-    if (buttonElement) {
-      if (parseInt(buttonElement.style.left) + increment >= maxWindowSize.width){
-        setBtnTop(100)
-        buttonElement.style.left = `${150}px`;
-        buttonElement.style.top = `${100}px`;
-        return
-      }
-      const newPosition = {
-        top: btnTop + increment > maxWindowSize.height ? 0 : btnTop + increment,
-        left: btnTop - 100,
-      };
+  const changePositionNoBtn = () => {
+    setcount(count + 1);
+    const btnElement = elementRef?.current;
+    if (btnElement) {
+      const btnCurrentBottom = btnElement.getBoundingClientRect().bottom;
+      const btnCurrentRight = btnElement.getBoundingClientRect().right;
 
-      // กำหนดตำแหน่งใหม่ให้ปุ่ม
-      buttonElement.style.top = `${newPosition.top}px`;
-      buttonElement.style.left = `${newPosition.left}px`;
+      setincremmentBtnTop((prevIncrementBtnTop) => {
+        return btnCurrentBottom + 80 > maxWindowSize.height
+          ? -10
+          : prevIncrementBtnTop + Math.random() * 80 + 40;
+      });
 
-      // อัปเดตค่า btnTop
-      setBtnTop(newPosition.top);
+      setincremmentBtnRight((prevIncrementBtnRight) => {
+        return btnCurrentRight < 100
+          ? 0
+          : prevIncrementBtnRight + Math.random() * 40 + 20;
+      });
+
+      console.log(maxWindowSize.width);
+      console.log(btnCurrentRight + 40);
+
+      btnElement.style.top = `${incremmentBtnTop}px`;
+      btnElement.style.right = `${incremmentBtnRight}px`;
     }
+  };
+
+  const Yes = () => {
+    switch (count) {
+      case 0:
+        Swal.fire("เล่นกับเค้าหน่อยสิ้! คลิกที่ 'ไม่'");
+        break;
+      case 1:
+        Swal.fire("เล่นกับเค้าอีกหน่อยสิ!");
+        break;
+      case 2:
+        Swal.fire("ครั้งสุดท้ายแน้ว!");
+        break;
+      default:
+        break;
+    }
+ 
   };
 
   return (
     <Container>
       <h1 className="text-center">แน่ใจอ้ะป่าว!?</h1>
-      {maxWindowSize.width} {maxWindowSize.height}
-      <p>{btnTop} {btnTop}</p>
-      <p>{}</p>
       <div className="flex justify-evenly items-center">
-        <button className="relative top-0">ใช่</button>
+        {count > 2 ? (
+          <Link to={'/nunnunday'} onClick={Yes} className="relative top-0 z-0">
+            ใช่
+          </Link>
+        ) : (
+          <button
+            onClick={Yes}
+            ref={element2Ref}
+            className="relative top-0 z-0"
+          >
+            ใช่
+          </button>
+        )}
         <button
-          onTouchStart={test}
+          onClick={changePositionNoBtn}
           ref={elementRef}
-          className="relative top-10"
+          className="relative z-10"
         >
           ไม่
         </button>
